@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>WeatherSphere</title>
+        <link rel="stylesheet" href="style.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <h1> 🌤️ WeatherSphere</h1>
+        <p>Real-time weather around the world</p>
+        <main>
+            <section id="search-section">
+                <input type="text" placeholder="Enter city name..." id="input-text" >
+                <button>🔍</button>
+                <div class="locate">
+                    <button>📍Use my Location</button>
+                </div>
+                <div class="recent-search">
+                    <h2 id="recent-city"></h2>
+                </div>
+            </section>
+            <section id="weather-section">
+                <div class="weather card">
+                    <div class="location">
+                        <p id="city">City</p>
+                    <p id="country">Country</p>
+                    <p id="date-time">Date & Time</p>
+                    </div>
+                    </div>
+                    <div class="main weather">
+                    <div class="toggle">
+                        <button id="celsius">°C</button>
+                        <button id="fera">°F</button>
+                      </div>
+                        <img id="weather-icon">
+                        <h2 id="temperature">-- °C</h2>
+                        <p id="condition">Weather Description</p>
+                        <p id="feels-like">Feels feels-like</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="humidity">💧Humidity</div>
+                        <div class="wind">💨Wind:</div>
+                        <div class="visible">👁️Visibility</div>
+                        <div class="pressure">🌡️Pressure</div>
+                        <div class="rise">🌄Sunrise</div>
+                        <div class="set">🌇Sunset</div>
+                    </div>
+                </div>
+            </section>
+            <section id="forecast section">
+                <h2>5 Day Forecast:</h2>
+                <div class="forecast-cards">
+                    <div class="forecast-card"></div>
+                    <div class="forecast-card"></div>
+                    <div class="forecast-card"></div>
+                    <div class="forecast-card"></div>
+                    <div class="forecast-card"></div>
+                </div>
+            </section>
+            <section id="ai">
+              <p>🤖 AI Advice:</p>
+              <p></p>
+            </section>
+            <footer>
+                <p>Last Updated:</p>
+                <p>Powered by OpenWeather</p>
+            </footer>
+        </main>
+    </body>
+</html>
