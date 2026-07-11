@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <title>WeatherSphere</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
         <link rel="stylesheet" href="style.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -15,10 +16,14 @@
         <main>
             <section id="search-section" class="glass-card">
                 <input type="text" placeholder="Enter city name..." id="input-text" >
-                <button id="searchBtn">🔍</button>
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
                 <div class="locate">
-                    <button id="locationBtn">📍Use my Location</button>
+                    <button id="locationBtn">
+                        <i class="fa-solid fa-location-dot"></i> 
+                        Use My Location
+                    </button>
                 </div>
+
                 <div class="recent-search">
                     <h2 id="recent-city"></h2>
                 </div>
@@ -48,12 +53,19 @@
                         <p id="feels-like">Feels feels-like</p>
                     </div>
                     <div class="stats-grid">
-                        <div class="stat-item"><span id="humidity">💧</span>Humidity</div>
-                        <div class="stat-item"><span id="wind">💨</span>Wind:</div>
-                        <div class="stat-item"><span id="visible">👁️</span>Visibility</div>
-                        <div class="stat-item"><span id="pressure">🌡️</span>Pressure</div>
-                        <div class="stat-item"><span id="rise">🌄</span>Sunrise</div>
-                        <div class=""><span id="set">🌇</span>Sunset</div>
+                        <div class="stat-item"><span id="humidity">
+                            <i class="fa-solid fa-droplet"></i></span>Humidity</div>
+                        <div class="stat-item"><span id="wind">
+                            <i class="fa-solid fa-wind"></i></span>Wind:</div>
+                        <div class="stat-item"><span id="visible">
+                            <i class="fa-solid fa-eye"></i></span>Visibility</div>
+                        <div class="stat-item"><span id="pressure"><i class="fa-solid fa-gauge-high"></i></span>Pressure</div>
+                        <div class="stat-item"><span id="rise">
+                            <i class="fa-solid fa-sun"></i>
+                        </span>Sunrise</div>
+                        <div class=""><span id="set">
+                            <i class="fa-solid fa-moon"></i>
+                        </span>Sunset</div>
                     </div>
                 </div>
             </section>
