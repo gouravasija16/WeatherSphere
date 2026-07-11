@@ -7,30 +7,31 @@
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
     </head>
     <body>
-        <div id="container">
-        <h1> 🌤️ WeatherSphere</h1>
+        <div class="wrapper"> 
+        <div id="container"class="glass-card">
+        <h1>🌤️WeatherSphere</h1>
         <p>Real-time weather around the world</p>
         </div>
         <main>
-            <section id="search-section">
+            <section id="search-section" class="glass-card">
                 <input type="text" placeholder="Enter city name..." id="input-text" >
-                <button>🔍</button>
+                <button id="searchBtn">🔍</button>
                 <div class="locate">
-                    <button>📍Use my Location</button>
+                    <button id="locationBtn">📍Use my Location</button>
                 </div>
                 <div class="recent-search">
                     <h2 id="recent-city"></h2>
                 </div>
+                <div class="loading" style="display:none">
+                 <p>Fetching weather... ⌛</p>
+                </div>
             </section>
-            <section id="weather-section">
-                <div class="weather card">
+            <section id="weather-section" class="glass-card">
+                <div class="weather-card">
                     <div class="location">
-                        <div class="loading" style="display:none">
-                            <p>Fetching weather... ⌛</p>
                             <div class="error" style="display:none">
-                                <p>City not found ❌</p>
+                                <p>City  not found ❌</p>
                             </div>
-                        </div>
                         <p id="city">City</p>
                     <p id="country">Country</p>
                     <p id="date-time">Date & Time</p>
@@ -47,16 +48,16 @@
                         <p id="feels-like">Feels feels-like</p>
                     </div>
                     <div class="stats-grid">
-                        <div class="humidity">💧Humidity</div>
-                        <div class="wind">💨Wind:</div>
-                        <div class="visible">👁️Visibility</div>
-                        <div class="pressure">🌡️Pressure</div>
-                        <div class="rise">🌄Sunrise</div>
-                        <div class="set">🌇Sunset</div>
+                        <div class="stat-item"><span id="humidity">💧</span>Humidity</div>
+                        <div class="stat-item"><span id="wind">💨</span>Wind:</div>
+                        <div class="stat-item"><span id="visible">👁️</span>Visibility</div>
+                        <div class="stat-item"><span id="pressure">🌡️</span>Pressure</div>
+                        <div class="stat-item"><span id="rise">🌄</span>Sunrise</div>
+                        <div class=""><span id="set">🌇</span>Sunset</div>
                     </div>
                 </div>
             </section>
-            <section id="forecast section">
+            <section id="forecast-section" class="glass-card">
                 <h2>5 Day Forecast:</h2>
                 <div class="forecast-cards">
                     <div class="forecast-card"></div>
@@ -66,7 +67,7 @@
                     <div class="forecast-card"></div>
                 </div>
             </section>
-            <section id="ai">
+            <section id="ai" class="glass-card">
               <p>🤖 AI Advice:</p>
               <p></p>
             </section>
@@ -75,5 +76,6 @@
                 <p>Powered by OpenWeather</p>
             </footer>
         </main>
+        </div>
     </body>
 </html>
