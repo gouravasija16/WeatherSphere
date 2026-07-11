@@ -7,8 +7,10 @@
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
     </head>
     <body>
+        <div id="container">
         <h1> 🌤️ WeatherSphere</h1>
         <p>Real-time weather around the world</p>
+        </div>
         <main>
             <section id="search-section">
                 <input type="text" placeholder="Enter city name..." id="input-text" >
@@ -23,6 +25,12 @@
             <section id="weather-section">
                 <div class="weather card">
                     <div class="location">
+                        <div class="loading" style="display:none">
+                            <p>Fetching weather... ⌛</p>
+                            <div class="error" style="display:none">
+                                <p>City not found ❌</p>
+                            </div>
+                        </div>
                         <p id="city">City</p>
                     <p id="country">Country</p>
                     <p id="date-time">Date & Time</p>
@@ -33,7 +41,7 @@
                         <button id="celsius">°C</button>
                         <button id="fera">°F</button>
                       </div>
-                        <img id="weather-icon">
+                        <img id="weather-icon" src="" alt="weather icon" style="display:none">
                         <h2 id="temperature">-- °C</h2>
                         <p id="condition">Weather Description</p>
                         <p id="feels-like">Feels feels-like</p>
