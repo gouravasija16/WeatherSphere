@@ -31,8 +31,8 @@ body {
 }
 .glass-card{
     background:var(--glass-bg);
-    backdrop-filter:var(--glass-blur);
     -webkit-backdrop-filter:var(--glass-blur);
+    backdrop-filter:var(--glass-blur);
     border:1px solid var(--glass-border);
     border-radius:var(--border-radius);
     padding:var(--padding);
@@ -54,6 +54,7 @@ body {
     flex-wrap:wrap;
     gap:20px;
     align-items:center;
+    animation:fadeUp 0.5s ease;
 }
 #search-section button{
     background:rgba(255,255,255,0.2);
@@ -128,7 +129,7 @@ main{
     gap:20px;
     padding:40px;
     margin-top:20px;
-
+    animation:fadeUp 0.6s ease;
 }
 #city{
     font-size:2.5rem;
@@ -156,6 +157,7 @@ main{
      background:var(--glass-bg);
      backdrop-filter:var(--glass-blur);
      -webkit-backdrop-filter:var(--glass-blur);
+     -webkit-backdrop-clip:text;
      box-shadow: 0 0 15px rgba(255,255,255,0.2);
 }
 #celsius,#fera{
@@ -173,12 +175,15 @@ main{
     background:var(--accent);
     color:var(--text-primary);
 }
+.main-weather{
+    margin-top:20px;
+    gap:5px;
+}
 .weather-info{
     display:flex;
     flex-direction:column;
     align-items:center;
     gap:10px;
-    margin-top:10px;
 }
 #temperature{
     font-size:5rem;
@@ -187,7 +192,9 @@ main{
     text-shadow:0 0 20px rgba(0,212,255,0.3);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-    margin:20px 0;
+    text-align:center;
+    margin-bottom:auto;
+    width:100%;
 }
 
 #condition{
@@ -211,6 +218,121 @@ hr{
     margin:15px auto;
     width:100%;
 }
-#
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:15px;
+    width:100%;
+    margin-top:20px;
+    animation:fadeUp 0.7s ease;
+}
+.stat-item{
+    background:var(--glass-bg);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);
+    border-radius:var(--border-radius);
+    padding:12px;
+    margin:10px 0;
+    gap:30px;
+    text-align:center;
+   }
+   .stat-label{
+    font-size:1rem;
+    color:var(--text-secondary);
+    margin-top:10px;
+    margin-bottom:5px;
+   }
+    .stat-item i{
+        color:var(--accent);
+        font-size:1.4rem;
+        margin-bottom:5px;
+    }
+    .value{
+        font-size:1rem;
+        font-weight:600;
+        margin-top:10px;
+        color:var(--text-primary);
+    }
+    .stat-item:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    }
+    #forecast-section{
+        margin-top:20px;
+        width:100%;
+        padding:20px;
+        animation:fadeUp 0.8s ease;
+    }
+    #forecast-section h2{
+        font-size:1.5rem;
+        margin-bottom:20px;
+        color:var(--text-secondary);
+        letter-spacing:1px;
+    }
+    .forecast-cards{
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        min-height:120px;
+    }
+    .forecast-card{
+        background:var(--glass-bg);
+        backdrop-filter:var(--glass-blur);
+        -webkit-backdrop-filter:var(--glass-blur);
+        border:1px solid var(--glass-border);
+        border-radius:15px;
+        padding:20px;
+        flex:1;
+        text-align:center;
+        transition: transform 0.3s;
+    }
+    .forecast-card:hover{
+        transform:translateY(-5px);
+    }
+    #ai{
+        margin-top:10px;
+        background:var(--glass-bg);
+        backdrop-filter:var(--glass-blur);
+        -webkit-backdrop-filter:var(--glass-blur);
+        padding:10px;
+        border:1px solid var(--glass-border);
+        border-radius:20px;
+        animation:fadeUp 0.9s ease;
+    }
+    #ai i{
+        color:var(--accent);
+        font-size:1.2rem;
+        margin-right:10px;
+    }
+    #ai p{
+        font-size:1.2rem;
+        color:var(--text-secondary);
+        margin-top:10px;
+        font-weight:600;
+        line-height:1.6;
+    }
+    #advice{
+        font-size:1rem;
+        color:var(--text-secondary);
+        margin-top:10px;
+        font-weight:600;
+        line-height:1.6;
+    }
+    footer{
+        text-align:center;
+        padding:20px;
+        color:var(--text-secondary);
+        font-size:0.9rem;
+        border-top:1px solid var(--glass-border);
+        margin-top:20px;
+    }
+    #last-updated{
+        margin-bottom:10px;
+    }
+
+
+
+
 
 
