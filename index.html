@@ -6,17 +6,29 @@
         <link rel="stylesheet" href="style.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <style>
+            .error,
+            .loading,
+            #weather-icon {
+                display: none;
+            }
+        </style>
     </head>
     <body>
         <div class="wrapper"> 
         <div id="container"class="glass-card">
-        <h1>🌤️WeatherSphere</h1>
+        <h1><i class="fa-solid fa-cloud-sun"></i>WeatherSphere</h1>
         <p>Real-time weather around the world</p>
         </div>
         <main>
             <section id="search-section" class="glass-card">
-                <input type="text" placeholder="Enter city name..." id="input-text" >
-                <button id="searchBtn"><i class="fas fa-search"></i></button>
+                <input type="text" placeholder="Enter city name..." id="input-text">
+                <button id="searchBtn" type="button" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                 <div class="error">
+                     <p>City  not found <i class="fa-solid fa-triangle-exclamation"></i></p>
+                </div>
                 <div class="locate">
                 <button id="locationBtn">
                         <i class="fa-solid fa-location-dot"></i> 
@@ -24,31 +36,32 @@
                     </button>
                 </div>
                 <div class="recent-search">
-                    <p id="recent-city">Recent:</p>
-                    <div id="recent-list"></div>
+                    <p id="recent-city">Recent     Searches</p>
+                    <div id="recent-list">
+                       <span id="recent-empty"> No recent searches yet</span>
+                    </div>
                 </div>
-                <div class="loading" style="display:none">
-                 <p>Fetching weather... ⌛</p>
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Fetching weather... ⌛</p>
                 </div>
             </section>
             <section id="weather-section" class="glass-card">
                 <div class="weather-card">
                     <div class="location">
-                            <div class="error" style="display:none">
-                                <p>City  not found ❌</p>
-                            </div>
                         <p id="city">City</p>
                     <p id="country">Country</p>
-                    <p id="date-time">Date & Time</p>
+                    <p id="day">Saturday</p>
+                    <p id="date-time">12 July 2026  <span>• 11:00 PM</span></p>
                     </div>
                     <hr>
                     <div class="main-weather">
                       <div class="weather-info">
-                        <img id="weather-icon" src="" alt="weather icon" style="display:none">
+                        <img id="weather-icon" src="" alt="weather icon">
                         
                         <h2 id="temperature">°C</h2>
                         <p id="condition">Weather Description</p>
-                        <p id="feels-like">Feels-like</p>
+                        <p id="feels-like">Feels like</p>
                      </div>
                      <div class="toggle">
                         <button id="celsius" class="active">°C</button>
@@ -59,32 +72,32 @@
                         <div class="stat-item">
                             <i class="fa-solid fa-droplet"></i>
                             <p class="stat-label">Humidity</p>
-                            <p class="stat-value" id="humidity-value">-- %</p>
+                            <p class="stat-value" id="humidity-value">72%</p>
                          </div>
                         <div class="stat-item"> 
                             <i class="fa-solid fa-wind"></i>
                             <p class="stat-label">Wind</p>
-                            <p class="stat-value" id="wind-speed">-- Km/h</p>
+                            <p class="stat-value" id="wind-speed">18 Km/h</p>
                             </div>
                         <div class="stat-item">
                             <i class="fa-solid fa-eye"></i>
                             <p class="stat-label">Visibility</p>
-                             <p class="stat-value" id="visible">-- Km</p>
+                             <p class="stat-value" id="visible">8 Km</p>
                         </div>
                         <div class="stat-item">
                             <i class="fa-solid fa-gauge-high"></i>
                             <p class="stat-label">Pressure</p>
-                            <p class="stat-value" id="pressure">-- hPa</p>
+                            <p class="stat-value" id="pressure">1009 hPa</p>
                         </div>
                         <div class="stat-item">
                             <i class="fa-solid fa-sun"></i>
                             <p class="stat-label">Sunrise</p>
-                            <p class="stat-value" id="rise"></p>
+                            <p class="stat-value" id="rise">05:58 AM</p>
                         </div>
                         <div class="stat-item">
                             <i class="fa-solid fa-moon"></i>
                             <p class="stat-label">Sunset</p>
-                            <p class="stat-value" id="set"></p>
+                            <p class="stat-value" id="set">07:22 PM</p>
                         </div>
                     </div>
             </section>
