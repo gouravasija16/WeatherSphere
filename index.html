@@ -23,9 +23,9 @@
                         Use My Location
                     </button>
                 </div>
-
                 <div class="recent-search">
-                    <h2 id="recent-city"></h2>
+                    <p id="recent-city">Recent:</p>
+                    <div id="recent-list"></div>
                 </div>
                 <div class="loading" style="display:none">
                  <p>Fetching weather... ⌛</p>
@@ -41,16 +41,19 @@
                     <p id="country">Country</p>
                     <p id="date-time">Date & Time</p>
                     </div>
-                    </div>
-                    <div class="main weather">
-                    <div class="toggle">
-                        <button id="celsius">°C</button>
-                        <button id="fera">°F</button>
-                      </div>
+                    <hr>
+                    <div class="main-weather">
+                      <div class="weather-info">
                         <img id="weather-icon" src="" alt="weather icon" style="display:none">
+                        
                         <h2 id="temperature">-- °C</h2>
                         <p id="condition">Weather Description</p>
-                        <p id="feels-like">Feels feels-like</p>
+                        <p id="feels-like">Feels-like</p>
+                     </div>
+                     <div class="toggle">
+                        <button id="celsius" class="active">°C</button>
+                        <button id="fera">°F</button>
+                      </div>
                     </div>
                     <div class="stats-grid">
                         <div class="stat-item"><span id="humidity">
@@ -67,7 +70,8 @@
                             <i class="fa-solid fa-moon"></i>
                         </span>Sunset</div>
                     </div>
-                </div>
+                 </div>
+              </div>
             </section>
             <section id="forecast-section" class="glass-card">
                 <h2>5 Day Forecast:</h2>
