@@ -6,13 +6,6 @@
         <link rel="stylesheet" href="style.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <style>
-            .error,
-            .loading,
-            #weather-icon {
-                display: none;
-            }
-        </style>
     </head>
     <body>
         <div class="wrapper"> 
@@ -27,7 +20,7 @@
                     <i class="fas fa-search"></i>
                 </button>
                  <div class="error">
-                     <p>City  not found <i class="fa-solid fa-triangle-exclamation"></i></p>
+                     <p>City not found <i class="fa-solid fa-triangle-exclamation"></i></p>
                 </div>
                 <div class="locate">
                 <button id="locationBtn">
@@ -116,10 +109,14 @@
               <p id="advice"></p>
             </section>
             <footer>
-                <p id="last-updated">Last Updated:</p>
+                <div id="last-updated">Last Updated:
+                    <p id="update"></p>
+                </div>
                 <p>Powered by OpenWeather</p>
             </footer>
         </main>
         </div>
+         <script src="config.js"></script>
+        <script src="script.js"></script>
     </body>
 </html>
