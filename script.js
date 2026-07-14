@@ -1,13 +1,34 @@
 //API configuration
 const BASE_URL='https://api.openweathermap.org/data/2.5'
  console.log("WeatherSphere Loaded Successfully")
+ //
+ const iconMap={
+    "01d":"clear-day",
+    "01n":"clear-night",
+    "02d":"partly-cloudy-day",
+    "02n":"partly-cloudy-night",   
+    "03d":"cloudy",
+    "03n":"cloudy",
+    "04d":"overcast",
+    "04n":"overcast",
+    "09d":"drizzle",
+    "09n":"drizzle",
+    "10d":"rain",
+    "10n":"rain",
+    "11d":"thunderstorms",
+    "11n":"thunderstorms",
+    "13d":"snow",
+    "13n":"snow",
+    "50d":"fog",
+    "50n":"fog"
+ }
  //DOM references
   const searchInput=document.getElementById("input-text")
   const searchBtn=document.getElementById("searchBtn")
   const locateBtn=document.getElementById("locationBtn")
   const recentList=document.getElementById("recent-list")
   const cityEl=document.getElementById("city")
-  const countryEl=document.getElementById("country")
+  const countryEl=document.getElementById("country-text")
   const dayEl=document.getElementById("day")
   const dateTimeEl=document.getElementById("date-time")
   const weatherIcon=document.getElementById("weather-icon")
@@ -27,6 +48,12 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
   const loadingEl=document.querySelector(".loading")
   const celsiusBtn=document.getElementById("celsius")
   const fahrenBtn=document.getElementById("fera")
+ const locationIcon= document.querySelector(".fa-solid fa-location-dot")
+ //Default-city on page load
+ window.addEventListener("DOMContentLoaded",()=>{
+    fetchWeather("Mumbai")
+ })
+
   //Search-section 
 searchBtn.addEventListener('click',()=>{
     let city= searchInput.value.trim()
@@ -60,7 +87,7 @@ async function fetchWeather(city){
     loadingEl.style.display="block"
     errorEl.style.display="none"
     try{
-     let response=await fetch(`${BASE_URL}/weather?q=${city}&appid=${API_KEY}`)
+     let response=await fetch(`${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`)
      console.log(response.ok)
      if(!response.ok){
       throw  new err
@@ -85,6 +112,24 @@ async function fetchWeather(city){
     const regionNames=new Intl.DisplayNames(['en'],{type:'region'}) 
     const completeCountryName=regionNames.of(countryName)
     countryEl.textContent=completeCountryName
+     let info=Math.round(data.main.feels_like)
+     let tempInfo =Math.round(data.main.temp)
+    tempEl.textContent=`${tempInfo}°C`
+    feelsLikeEl.textContent=`Feels like ${info}°C `
+    conditionEl.textContent=data.weather[0].description
+    const iconCode=data.weather[0].icon
+    const iconName=iconMap[iconCode]
+    const iconUrl=`https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/all/${iconName}.svg`
+    console.log(iconName)
+    console.log(iconUrl)
+    weatherIcon.style.display="block"
+    weatherIcon.src= iconUrl
+    humidityEl.textContent= `${data.main.humidity}%`
+    windEl.textContent= `${data.wind.speed}Km/h`
+    visibilityEl.textContent= `${data.visibility} Km`
+    pressureEl.textContent=`${data.main.pressure} hPa`
+    // sunriseEl.textContent=
+    // sunsetEl.textContent=
  }
 
 
