@@ -1,4 +1,4 @@
-@import
+@import 
 url('https://fonts.googleapis.com/css2?family=Poppins: wgh@300;400;500;600;700&display=swap');
 :root{
     --bg-gradient:linear-gradient(135deg,#0f0c29, #302b63, #24243e);
@@ -154,18 +154,23 @@ main{
 }
 #city{
     font-size:2.5rem;
-    font-weight:700;
-    margin-bottom:10px;
+    font-weight:bolder;
     letter-spacing:2px;
+    padding:3px;
 }
 #country{
     color:var(--text-secondary);
-    font-size:1.2rem;
-    margin-bottom:10px;
+    font-size:1rem;
+    margin-bottom:16px;
+}
+#country i{
+    padding-right:8px;
+    font-size:1rem;
 }
 #date-time{
     font-size:0.9rem;
-    color:var(--text-secondary)
+    color:var(--text-secondary);
+    line-height: 1.6;
 }
 #date-time span{
     padding:10px;
