@@ -1,7 +1,8 @@
 //API configuration
 const BASE_URL='https://api.openweathermap.org/data/2.5'
  console.log("WeatherSphere Loaded Successfully")
- //
+
+ // meteocons weather icons mapping
  const iconMap={
     "01d":"clear-day",
     "01n":"clear-night",
@@ -22,6 +23,7 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
     "50d":"fog",
     "50n":"fog"
  }
+
  //DOM references
   const searchInput=document.getElementById("input-text")
   const searchBtn=document.getElementById("searchBtn")
@@ -49,6 +51,7 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
   const celsiusBtn=document.getElementById("celsius")
   const fahrenBtn=document.getElementById("fera")
  const locationIcon= document.querySelector(".fa-solid fa-location-dot")
+ let currentUnit="°C"
  //Default-city on page load
  window.addEventListener("DOMContentLoaded",()=>{
     fetchWeather("Mumbai")
@@ -79,7 +82,6 @@ searchInput.addEventListener('keydown',(e)=>{
 return;
   }
   fetchWeather(city)
-  
   searchInput.value=""
 }
 })
@@ -95,6 +97,7 @@ async function fetchWeather(city){
      let data= await response.json()
       await console.log(data)
       displayWeather(data)
+       toggleButton(data)
     }
     catch(err){
          errorEl.style.display="block"
@@ -106,17 +109,25 @@ async function fetchWeather(city){
         loadingEl.style.display="none"   
     }
 } 
+
+// display City information
  function displayWeather(data){
     cityEl.textContent=data.name  
     countryName=data.sys.country 
     const regionNames=new Intl.DisplayNames(['en'],{type:'region'}) 
     const completeCountryName=regionNames.of(countryName)
     countryEl.textContent=completeCountryName
+
+    // weather information
+    
      let info=Math.round(data.main.feels_like)
-     let tempInfo =Math.round(data.main.temp)
-    tempEl.textContent=`${tempInfo}°C`
+     let currentTemp=data.main.temp
+     let tempInfo =Math.round(currentTemp)
+    tempEl.textContent=`${tempInfo}${currentUnit}`
     feelsLikeEl.textContent=`Feels like ${info}°C `
     conditionEl.textContent=data.weather[0].description
+
+    //weather icons 
     const iconCode=data.weather[0].icon
     const iconName=iconMap[iconCode]
     const iconUrl=`https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/all/${iconName}.svg`
@@ -124,10 +135,14 @@ async function fetchWeather(city){
     console.log(iconUrl)
     weatherIcon.style.display="block"
     weatherIcon.src= iconUrl
+
+    // stats-grid
     humidityEl.textContent= `${data.main.humidity}%`
-    windEl.textContent= `${data.wind.speed}Km/h`
+    const windSpeed= Math.round(data.wind.speed *3.6)
+    windEl.textContent= `${windSpeed} Km/h`
     visibilityEl.textContent= `${data.visibility/1000} Km`
     pressureEl.textContent=`${data.main.pressure} hPa`
+
     // date-time function
     function updateDateTime(timezoneOffset){
         const utc=new Date().getTime()+ new Date().getTimezoneOffset()*60000
@@ -148,6 +163,7 @@ async function fetchWeather(city){
         dayEl.textContent=day
     }
     updateDateTime(data.timezone)
+
     //sunset and sun rise
     function formatTime(unixTime,timezoneOffset){
         const formatTimestamp=unixTime*1000+timezoneOffset*1000
@@ -161,3 +177,23 @@ async function fetchWeather(city){
     sunriseEl.textContent= formatTime(data.sys.sunrise,data.timezone)
      sunsetEl.textContent=formatTime(data.sys.sunset,data.timezone)
 }
+// toggle button
+function toggleButton(data){
+    if(currentUnit==="°C"){
+        fahrenBtn.addEventListener('click',()=>{
+            celsiusBtn.classList.toggle('active')
+            fahrenBtn.classList.toggle('active')
+           currentTemp=(data.main.temp *(9/5))+32
+          currentUnit="°F"
+        })
+        return
+    }else{
+        celsiusBtn.addEventListener('click',()=>{
+             fahrenBtn.classList.toggle('active')
+            celsiusBtn.classList.toggle('active')
+            currentTemp=data.main.temp
+        })
+        return
+    }
+}
+
