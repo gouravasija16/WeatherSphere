@@ -148,28 +148,16 @@ async function fetchWeather(city){
         dayEl.textContent=day
     }
     updateDateTime(data.timezone)
-    const sunriseTimestamp=data.sys.sunrise
-    const rise=new Date(sunriseTimestamp*1000).toLocaleTimeString('en-US',{
+    //sunset and sun rise
+    function formatTime(unixTime,timezoneOffset){
+        const formatTimestamp=unixTime*1000+timezoneOffset*1000
+        const formatTime=new Date(formatTimestamp).toLocaleTimeString('en-US',{
         hour:'2-digit',
-        minute:'2-digit'
+        minute:'2-digit',
+        timeZone:"UTC"
     })
-    console.log(rise)
-    sunriseEl.textContent= rise
-    const sunsetTimestamp=data.sys.sunset
-    const set=new Date(sunsetTimestamp*1000).toLocaleTimeString('en-US',{
-        hour:'2-digit',
-        minute:'2-digit'
-    })
-    console.log(set)
-    sunsetEl.textContent= set
-    
- }
-
-
-
-
-  
-
-
-
-
+    return formatTime
+    }
+    sunriseEl.textContent= formatTime(data.sys.sunrise,data.timezone)
+     sunsetEl.textContent=formatTime(data.sys.sunset,data.timezone)
+}
