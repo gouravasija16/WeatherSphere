@@ -126,10 +126,43 @@ async function fetchWeather(city){
     weatherIcon.src= iconUrl
     humidityEl.textContent= `${data.main.humidity}%`
     windEl.textContent= `${data.wind.speed}Km/h`
-    visibilityEl.textContent= `${data.visibility} Km`
+    visibilityEl.textContent= `${data.visibility/1000} Km`
     pressureEl.textContent=`${data.main.pressure} hPa`
-    // sunriseEl.textContent=
-    // sunsetEl.textContent=
+    // date-time function
+    function updateDateTime(timezoneOffset){
+        const utc=new Date().getTime()+ new Date().getTimezoneOffset()*60000
+        const cityTime=new Date(utc+ timezoneOffset*1000)
+        const options={
+            year:"numeric",
+            month:"long",
+            day:"numeric",
+            hour:"2-digit",
+            minute:"2-digit",
+            hour12:true
+        }
+        const formatted= cityTime.toLocaleDateString("en-GB",options)
+        dateTimeEl.textContent= formatted.replace(" at","  •  ")
+        const day= cityTime.toLocaleDateString("en-US",{
+            weekday:"long"
+        })
+        dayEl.textContent=day
+    }
+    updateDateTime(data.timezone)
+    const sunriseTimestamp=data.sys.sunrise
+    const rise=new Date(sunriseTimestamp*1000).toLocaleTimeString('en-US',{
+        hour:'2-digit',
+        minute:'2-digit'
+    })
+    console.log(rise)
+    sunriseEl.textContent= rise
+    const sunsetTimestamp=data.sys.sunset
+    const set=new Date(sunsetTimestamp*1000).toLocaleTimeString('en-US',{
+        hour:'2-digit',
+        minute:'2-digit'
+    })
+    console.log(set)
+    sunsetEl.textContent= set
+    
  }
 
 
