@@ -52,11 +52,32 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
   const fahrenBtn=document.getElementById("fera")
  const locationIcon= document.querySelector(".fa-solid fa-location-dot")
  let currentUnit="°C"
+ let currentTemp=0;
+ let weatherData="null"
+ let info=0
  //Default-city on page load
  window.addEventListener("DOMContentLoaded",()=>{
     fetchWeather("Mumbai")
  })
-
+ //toggleButton
+function toggleButton(){
+        fahrenBtn.addEventListener('click',()=>{
+            celsiusBtn.classList.remove('active')
+            fahrenBtn.classList.add('active')
+        //    currentTemp=currentTemp *(9/5)+32
+           console.log(currentTemp)
+           currentUnit="°F"
+           displayWeather( weatherData)
+        })
+        celsiusBtn.addEventListener('click',()=>{
+             fahrenBtn.classList.remove('active')
+            celsiusBtn.classList.add('active')
+            currentUnit="°C"
+             displayWeather( weatherData)
+        })
+       
+    }
+    toggleButton()
   //Search-section 
 searchBtn.addEventListener('click',()=>{
     let city= searchInput.value.trim()
@@ -85,6 +106,7 @@ return;
   searchInput.value=""
 }
 })
+
 async function fetchWeather(city){
     loadingEl.style.display="block"
     errorEl.style.display="none"
@@ -96,8 +118,8 @@ async function fetchWeather(city){
      }
      let data= await response.json()
       await console.log(data)
-      displayWeather(data)
-       toggleButton(data)
+       weatherData=data
+      displayWeather( weatherData)
     }
     catch(err){
          errorEl.style.display="block"
@@ -109,7 +131,6 @@ async function fetchWeather(city){
         loadingEl.style.display="none"   
     }
 } 
-
 // display City information
  function displayWeather(data){
     cityEl.textContent=data.name  
@@ -119,12 +140,20 @@ async function fetchWeather(city){
     countryEl.textContent=completeCountryName
 
     // weather information
-    
-     let info=Math.round(data.main.feels_like)
-     let currentTemp=data.main.temp
+     if(currentUnit==="°C"){
+     currentTemp=data.main.temp 
+     info=Math.round(data.main.feels_like)
+
+     }else{
+        currentTemp=data.main.temp *(9/5)+32
+        info=Math.round((data.main.feels_like)*(9/5)+32)
+     }
+     console.log(currentTemp)
      let tempInfo =Math.round(currentTemp)
     tempEl.textContent=`${tempInfo}${currentUnit}`
-    feelsLikeEl.textContent=`Feels like ${info}°C `
+    console.log(tempInfo)
+     
+    feelsLikeEl.textContent=`Feels like ${info}${currentUnit} `
     conditionEl.textContent=data.weather[0].description
 
     //weather icons 
@@ -178,22 +207,5 @@ async function fetchWeather(city){
      sunsetEl.textContent=formatTime(data.sys.sunset,data.timezone)
 }
 // toggle button
-function toggleButton(data){
-    if(currentUnit==="°C"){
-        fahrenBtn.addEventListener('click',()=>{
-            celsiusBtn.classList.toggle('active')
-            fahrenBtn.classList.toggle('active')
-           currentTemp=(data.main.temp *(9/5))+32
-          currentUnit="°F"
-        })
-        return
-    }else{
-        celsiusBtn.addEventListener('click',()=>{
-             fahrenBtn.classList.toggle('active')
-            celsiusBtn.classList.toggle('active')
-            currentTemp=data.main.temp
-        })
-        return
-    }
-}
+
 
