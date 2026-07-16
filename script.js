@@ -51,6 +51,7 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
   const celsiusBtn=document.getElementById("celsius")
   const fahrenBtn=document.getElementById("fera")
  const locationIcon= document.querySelector(".fa-solid fa-location-dot")
+ //global variables
  let currentUnit="°C"
  let currentTemp=0;
  let weatherData="null"
@@ -64,7 +65,6 @@ function toggleButton(){
         fahrenBtn.addEventListener('click',()=>{
             celsiusBtn.classList.remove('active')
             fahrenBtn.classList.add('active')
-        //    currentTemp=currentTemp *(9/5)+32
            console.log(currentTemp)
            currentUnit="°F"
            displayWeather( weatherData)
@@ -74,8 +74,7 @@ function toggleButton(){
             celsiusBtn.classList.add('active')
             currentUnit="°C"
              displayWeather( weatherData)
-        })
-       
+        }) 
     }
     toggleButton()
   //Search-section 
@@ -90,6 +89,8 @@ searchBtn.addEventListener('click',()=>{
 return
   }
   fetchWeather(city)
+   console.log("calling fetchForecast")
+  fetchForecast(city)
   searchInput.value=""
 })
 searchInput.addEventListener('keydown',(e)=>{
@@ -103,10 +104,11 @@ searchInput.addEventListener('keydown',(e)=>{
 return;
   }
   fetchWeather(city)
+  fetchForecast(city)
   searchInput.value=""
 }
 })
-
+//weather API call using async and await
 async function fetchWeather(city){
     loadingEl.style.display="block"
     errorEl.style.display="none"
@@ -205,7 +207,23 @@ async function fetchWeather(city){
     }
     sunriseEl.textContent= formatTime(data.sys.sunrise,data.timezone)
      sunsetEl.textContent=formatTime(data.sys.sunset,data.timezone)
+     return
 }
-// toggle button
+// 5 Day forecast 
+async function fetchForecast(city){
+    console.log('entered fetchForecast')
+    try{
+   let response= await fetch(`${BASE_URL}/forecast?q=${city}&appid=${API_KEY}&units=metric`)
+   console.log(response.status)
+   let forecast= await response.json()
+    let forecastData=forecast.list.filter(item=>item.dt_txt.includes("12:00:00"))
+    console.log(forecastData.length)
+     console.log(forecastData.map(item=>item))
+    }
+    catch(err){
+         console.log(err)
+    }
+}
+
 
 
