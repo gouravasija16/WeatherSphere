@@ -336,7 +336,10 @@ hr{
         transition: transform 0.3s;
     }
     .forecast-card:hover{
-        transform:translateY(-5px);
+        transform:translateY(-8px);
+        border: 1px solid var(--accent);
+        transition: all 0.3s ease;
+        box-shadow: 0 12px 25px rgba(0,0,0,0.25)
     }
     #ai{
         margin-top:10px;
@@ -439,6 +442,43 @@ hr{
         flex-direction:column;
     }
 }
+#forecast-temp{
+    font-size:1.2rem;
+    padding-bottom:5px;
+     background:linear-gradient(90deg,#06a4eeca,#ffffff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent; 
+}
+#forecast-day{
+    font-weight:700;
+    padding-bottom:8px;
+}
+#forecast-detail{
+    color:var(--text-secondary);
+    padding-top:10px;
+    font-size:0.9rem;
+    text-transform: capitalize
+}
+#forecast-icon{
+    filter:drop-shadow(0 0px 18px rgba(255,255,255,0.8));
+    width:60px;
+    height:auto;
+    animation:float 3s ease-in-out infinite
+}
+@keyframes float{
+    0%,100% { transform:translateY(0);}
+    50% {transform:translateY(-8px)}
+}
+#forecast-icon:hover{
+    transform:translate(-3px)
+}
+.forecast-card:first-child{
+    border:1px solidrgba(255,255,255,0.4);
+    background:rgba(0,210,255,0.15);
+    box-shadow:0 4px 15px rgba(0,0,0,0.2)
+}
+
 
 
 

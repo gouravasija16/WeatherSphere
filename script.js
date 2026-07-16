@@ -1,3 +1,4 @@
+
 //API configuration
 const BASE_URL='https://api.openweathermap.org/data/2.5'
  console.log("WeatherSphere Loaded Successfully")
@@ -43,7 +44,7 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
   const pressureEl=document.getElementById("pressure")
   const sunriseEl=document.getElementById("rise")
   const sunsetEl=document.getElementById("set")
-  const forecastCards=document.getElementById("forecast-cards")
+  const forecastCards=document.querySelector(".forecast-cards")
   const aiEl=document.getElementById("advice")
   const updated=document.getElementById("update")
   const errorEl=document.querySelector(".error")
@@ -55,10 +56,11 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
  let currentUnit="°C"
  let currentTemp=0;
  let weatherData="null"
- let info=0
+ let forecastToggleData="null";
  //Default-city on page load
  window.addEventListener("DOMContentLoaded",()=>{
     fetchWeather("Mumbai")
+    fetchForecast("Mumbai")
  })
  //toggleButton
 function toggleButton(){
@@ -68,12 +70,14 @@ function toggleButton(){
            console.log(currentTemp)
            currentUnit="°F"
            displayWeather( weatherData)
+           displayForecast(forecastToggleData)
         })
         celsiusBtn.addEventListener('click',()=>{
              fahrenBtn.classList.remove('active')
             celsiusBtn.classList.add('active')
             currentUnit="°C"
              displayWeather( weatherData)
+             displayForecast(forecastToggleData)
         }) 
     }
     toggleButton()
@@ -217,13 +221,45 @@ async function fetchForecast(city){
    console.log(response.status)
    let forecast= await response.json()
     let forecastData=forecast.list.filter(item=>item.dt_txt.includes("12:00:00"))
-    console.log(forecastData.length)
+    console.log(forecastData)
      console.log(forecastData.map(item=>item))
+     forecastToggleData=forecastData
+     displayForecast(forecastToggleData)
     }
     catch(err){
          console.log(err)
     }
 }
+function displayForecast(forecastToggleData){
+    console.log(forecastToggleData.length)
+      forecastCards.innerHTML=""
+    forecastToggleData.forEach(entry => {
+        if(currentUnit==="°C"){
+     forecastTemp=Math.round(entry.main.temp) 
+     }else{
+        forecastTemp=Math.round(entry.main.temp *(9/5)+32)
+     }
+        let forecastDay=new Date(entry.dt*1000).toLocaleDateString('en',{
+            weekday:'short'
+        })
+        console.log(forecastDay)
+        const forecastIconCode=entry.weather[0].icon
+        const forecastIconName=iconMap[forecastIconCode]
+        const forecastIconUrl=`https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/all/${forecastIconName}.svg`
+        const forecastDescription=entry.weather[0].description
+       let newDiv= document.createElement('div')
+       newDiv.classList.add('forecast-card')   
+       newDiv.innerHTML=`
+       <div id="forecast-day">${forecastDay}</div>
+       <img id= forecast-icon src="${forecastIconUrl}">
+       <div id="forecast-temp">${forecastTemp}${currentUnit}</div>
+       <div id="forecast-detail">${forecastDescription}</div>
+       `
+    forecastCards.appendChild(newDiv)
+    });
+}
+
+
 
 
 
