@@ -109,13 +109,13 @@ main{
     max-width:650px;
     margin:0 auto;
 }
-.recent-search{
+/* .recent-list{
     display:flex;
     margin-top:12px;
     flex-direction:column;
-    flex-wrap:wrap;
-    justify-content:flex-start;
-}
+    /* flex-wrap:wrap; */
+    /* justify-content:flex-start; */
+/* } */ 
 #recent-city{
     font-size:1rem;
     color:rgba(255,255,255,0.5);
@@ -124,12 +124,16 @@ main{
 }
 #recent-list{
     display:flex;
-    gap:8px;
-    flex-wrap:flex;
-    font-size:0.9rem;
+    gap:15px;
+    justify-content: center;
+    flex-wrap:wrap;
+    font-size:0.8rem;
     color:rgba(255,255,255,0.6);
 }
-.recent-chip{
+#recent-empty{
+    font-size:0.9rem;
+}
+.recentCityBtn{
     background:rgba(255,255,255,0.1);
     border:1px solid rgba(255,255,255,0.2);
     border-radius:20px;
@@ -140,8 +144,9 @@ main{
     color:(--text-primary);
     transition:0.3s;
 }
-.recent-chip:hover{
-    background:rgba(255,255,255,0.5)
+.recentCityBtn:hover{
+    background:rgba(255,255,255,0.5);
+    border: 1px solid var(--accent);
 }
 .weather-card{
     display:flex;
@@ -378,9 +383,13 @@ hr{
         border-top:1px solid var(--glass-border);
         margin-top:20px;
     }
-    #last-updated{
+    #last-updated{   
         margin-bottom:10px;
     }
+    #update{
+        padding-top:5px;
+    }
+   
     .error{
         color:#ff6b6b;
         font-size:0.9rem;

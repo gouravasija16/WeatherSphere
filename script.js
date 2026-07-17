@@ -2,6 +2,7 @@
 //API configuration
 const BASE_URL='https://api.openweathermap.org/data/2.5'
  console.log("WeatherSphere Loaded Successfully")
+ let recentSearches=JSON.parse(localStorage.getItem("recentSearches")) || []
 
  // meteocons weather icons mapping
  const iconMap={
@@ -61,6 +62,7 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
  window.addEventListener("DOMContentLoaded",()=>{
     fetchWeather("Mumbai")
     fetchForecast("Mumbai")
+    displayRecentSearches(recentCities)
  })
  //toggleButton
 function toggleButton(){
@@ -93,8 +95,9 @@ searchBtn.addEventListener('click',()=>{
 return
   }
   fetchWeather(city)
-   console.log("calling fetchForecast")
+  console.log("calling fetchForecast")
   fetchForecast(city)
+  saveRecentSearches(city)
   searchInput.value=""
 })
 searchInput.addEventListener('keydown',(e)=>{
@@ -109,6 +112,7 @@ return;
   }
   fetchWeather(city)
   fetchForecast(city)
+  saveRecentSearches(city)
   searchInput.value=""
 }
 })
@@ -126,6 +130,7 @@ async function fetchWeather(city){
       await console.log(data)
        weatherData=data
       displayWeather( weatherData)
+    //    fetchAIAdvice(data)
     }
     catch(err){
          errorEl.style.display="block"
@@ -211,7 +216,13 @@ async function fetchWeather(city){
     }
     sunriseEl.textContent= formatTime(data.sys.sunrise,data.timezone)
      sunsetEl.textContent=formatTime(data.sys.sunset,data.timezone)
-     return
+     //last updated
+      const now= new Date()
+    updated.textContent=now.toLocaleTimeString('en-US',{
+        hour:"2-digit",
+        minute:'2-digit'
+    })
+    
 }
 // 5 Day forecast 
 async function fetchForecast(city){
@@ -257,6 +268,59 @@ function displayForecast(forecastToggleData){
        `
     forecastCards.appendChild(newDiv)
     });
+}
+//AI advice
+async function fetchAIAdvice(data){
+    try{
+    console.log("Gemini API called")
+    const prompt=` Give weather advice for someone in ${data.name} where it is Math.round(${data.main.temp})°C,${data.weather[0].description}, humidity ${data.main.humidity}%, wind ${data.wind.speed *3.6}Km/h 
+    What to wear,activitise to avoid,health tips.
+    Keep it under 100 words`
+    const response= await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_KEY}`,
+        {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                contents:[{parts:[{text:prompt}]}]
+            })
+        }
+    )
+    console.log(response.status)
+    const dataAI =await response.json()
+    console.log(dataAI)
+    // console.log(dataAI.candidates[0].content.parts[0].text)
+    
+}catch(err){
+    console.log(err)
+}
+}
+// Recent Searches
+function saveRecentSearches(city){
+    let recentCities= recentSearches.filter(recentSearch=>
+     recentSearch !==city)
+     recentCities.unshift(city)
+     recentCities=recentCities.slice(0,5)
+    localStorage.setItem("recentSearches",JSON.stringify(recentCities))
+    displayRecentSearches(recentCities)
+}
+//dispaly recent Searches
+function displayRecentSearches(recentCities){ 
+    if(recentCities.length !==0){
+        recentList.innerHTML=""
+    recentCities.forEach(recentCity=>{
+       let button= document.createElement('button')
+       button.classList.add('recentCityBtn')
+       button.textContent=recentCity
+       console.log(button.textContent)
+       recentList.appendChild(button)
+    })
+    recentList.addEventListener('click',(e)=>{
+        console.log(e.target.textContent)
+        fetchWeather(e.target.textContent)
+        fetchForecast(e.target.textContent)
+    })
+ }
+   
 }
 
 
