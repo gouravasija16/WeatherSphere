@@ -97,6 +97,7 @@ return
   fetchWeather(city)
   console.log("calling fetchForecast")
   fetchForecast(city)
+
   saveRecentSearches(city)
   searchInput.value=""
 })
@@ -128,9 +129,11 @@ async function fetchWeather(city){
      }
      let data= await response.json()
       await console.log(data)
+      localStorage.setItem("lastWeather",JSON.stringify(data))
+      console.log(JSON.parse(localStorage.getItem("lastWeather")))
+    //   fetchAIAdvice()
        weatherData=data
       displayWeather( weatherData)
-    //    fetchAIAdvice(data)
     }
     catch(err){
          errorEl.style.display="block"
@@ -270,12 +273,28 @@ function displayForecast(forecastToggleData){
     });
 }
 //AI advice
-async function fetchAIAdvice(data){
+async function fetchAIAdvice(){
     try{
+        console.log("AI function called")
+         let lastWeather=JSON.parse(localStorage.getItem("lastWeather"))
+         console.log(lastWeather)
     console.log("Gemini API called")
-    const prompt=` Give weather advice for someone in ${data.name} where it is Math.round(${data.main.temp})°C,${data.weather[0].description}, humidity ${data.main.humidity}%, wind ${data.wind.speed *3.6}Km/h 
-    What to wear,activitise to avoid,health tips.
-    Keep it under 100 words`
+    const prompt=`You are a smart weather assistant.
+     Based on current weather in ${lastWeather.name}:
+     🌡️ Temperature: Math.round(${lastWeather.main.temp})°C
+     🌤️ Condition: ${lastWeather.weather [0].description}
+     💧Humidity: ${lastWeather.main.humidity}%
+     💨 Wind : ${lastWeather.wind.speed *3.6}Km/h 
+     🌡️ Feels like:Math.round(${lastWeather.main.feels_like})
+     Give practical advice in this exact format:
+     👔 **What to Wear**(1 line)
+     🏃**Activities:**(1 line-what to do/avoid)
+     💓**Health Tip:**(1 line)
+     ☂️**Carry:**(1 line - umbrella/sunscreen etc)
+     ⚠️**Warning:**(1 line - any weather alert)
+
+     Keep each point concise.Use modern and innovative emojis created by you own.Don't use bracket notation like [emoji].Can you makes changes in my emoji to make it modern.Be specific to weather conditions.
+     `
     const response= await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_KEY}`,
         {
             method:'POST',
@@ -288,8 +307,15 @@ async function fetchAIAdvice(data){
     console.log(response.status)
     const dataAI =await response.json()
     console.log(dataAI)
-    // console.log(dataAI.candidates[0].content.parts[0].text)
-    
+    console.log(dataAI.candidates[0].content.parts[0].text)
+     const aiText=dataAI.candidates[0].content.parts[0].text
+    const lines=aiText.split("\n").filter(line=>line.trim())
+    const formatted=lines.map(line=>
+        `<p>${line.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`
+    ).join("")
+    aiEl.innerHTML=formatted
+    console.log(aiEl)
+    console.log("formatted:",formatted)
 }catch(err){
     console.log(err)
 }
