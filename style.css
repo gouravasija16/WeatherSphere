@@ -109,13 +109,6 @@ main{
     max-width:650px;
     margin:0 auto;
 }
-/* .recent-list{
-    display:flex;
-    margin-top:12px;
-    flex-direction:column;
-    /* flex-wrap:wrap; */
-    /* justify-content:flex-start; */
-/* } */ 
 #recent-city{
     font-size:1rem;
     color:rgba(255,255,255,0.5);
@@ -145,8 +138,8 @@ main{
     transition:0.3s;
 }
 .recentCityBtn:hover{
-    background:rgba(255,255,255,0.5);
-    border: 1px solid var(--accent);
+    background:rgba(255,255,255,255,0.5);
+    border: 1px solid var(--);
 }
 .weather-card{
     display:flex;

@@ -2,7 +2,7 @@
 //API configuration
 const BASE_URL='https://api.openweathermap.org/data/2.5'
  console.log("WeatherSphere Loaded Successfully")
- let recentSearches=JSON.parse(localStorage.getItem("recentSearches")) || []
+ let recentCities=JSON.parse(localStorage.getItem("recentSearches")) || []
 
  // meteocons weather icons mapping
  const iconMap={
@@ -62,7 +62,7 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
  window.addEventListener("DOMContentLoaded",()=>{
     fetchWeather("Mumbai")
     fetchForecast("Mumbai")
-    displayRecentSearches(recentCities)
+    displayRecentSearches()
  })
  //toggleButton
 function toggleButton(){
@@ -296,7 +296,7 @@ async function fetchAIAdvice(data){
 }
 // Recent Searches
 function saveRecentSearches(city){
-    let recentCities= recentSearches.filter(recentSearch=>
+     recentCities= recentCities.filter(recentSearch=>
      recentSearch !==city)
      recentCities.unshift(city)
      recentCities=recentCities.slice(0,5)
@@ -304,9 +304,9 @@ function saveRecentSearches(city){
     displayRecentSearches(recentCities)
 }
 //dispaly recent Searches
-function displayRecentSearches(recentCities){ 
-    if(recentCities.length !==0){
-        recentList.innerHTML=""
+function displayRecentSearches(){  
+    if(recentCities.length !==0){  
+         recentList.innerHTML="" 
     recentCities.forEach(recentCity=>{
        let button= document.createElement('button')
        button.classList.add('recentCityBtn')
@@ -314,14 +314,13 @@ function displayRecentSearches(recentCities){
        console.log(button.textContent)
        recentList.appendChild(button)
     })
-    recentList.addEventListener('click',(e)=>{
+ }  
+}
+ recentList.addEventListener('click',(e)=>{
         console.log(e.target.textContent)
         fetchWeather(e.target.textContent)
         fetchForecast(e.target.textContent)
     })
- }
-   
-}
 
 
 
