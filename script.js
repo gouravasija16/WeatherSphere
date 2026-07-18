@@ -318,10 +318,23 @@ function displayRecentSearches(){
 }
  recentList.addEventListener('click',(e)=>{
         console.log(e.target.textContent)
+        const allBtn=document.querySelectorAll('.recentCityBtn')
+        for(let i=0;i<allBtn.length;i++){
+            allBtn[i].style.border=""
+             allBtn[i].style.color=""
+             allBtn[i].style.background=""
+              allBtn[i].transform='none'
+              allBtn[i].transition='none'
+        }
+        e.target.style.border='1px solid #419cff'
+        e.target.style.background='#4f9cff'
+        e.target.style.color='#fff'
+        e.target.boxshadow='0 0 18px rgba(79,156,255,0.45)'
+        e.target.transition='transform 0.2s ease-in-out'
+        e.target.transform='scale(1.05)'
         fetchWeather(e.target.textContent)
         fetchForecast(e.target.textContent)
     })
-
 
 
 

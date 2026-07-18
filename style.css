@@ -132,14 +132,14 @@ main{
     border-radius:20px;
     padding:4px 12px;
     font-size:1rem;
-    color:var;
     cursor:pointer;
     color:(--text-primary);
     transition:0.3s;
+    text-transform:capitalize
 }
 .recentCityBtn:hover{
     background:rgba(255,255,255,255,0.5);
-    border: 1px solid var(--);
+    border: 1px solid var(--accent);
 }
 .weather-card{
     display:flex;
