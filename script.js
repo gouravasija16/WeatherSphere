@@ -249,6 +249,9 @@ async function fetchWeather(city=null,lat=null,lon=null){
         hour:"2-digit",
         minute:'2-digit'
     })
+    //Weather Id
+    const conditionId = data.weather[0].id
+    setBackground(conditionId)
     
 }
 // 5 Day forecast 
@@ -391,7 +394,49 @@ function displayRecentSearches(){
         fetchWeather(e.target.textContent)
         fetchForecast(e.target.textContent)
     })
+    function setBackground(conditionId){
+        let gradient="null"
+        if(conditionId===800){
+             gradient="linear-gradient(135deg,#f7971e,#ffd200)"
+            document.body.style.background=gradient;
+            document.body.style.color="white"
+            document.querySelectorAll(".glass-card")
+            .forEach(card=>{
+                card.style.background="rgba(0,0,0,0.2)"
+            })
+        }else if(conditionId >=200 && conditionId<300){
+             gradient="linear-gradient(135deg,#0f0c29,#302b63,#24243e)"
+            document.body.style.background=gradient;
+            document.body.style.color="white"
+
+        }else if(conditionId >=300 && conditionId<500){
+               gradient="linear-gradient(135deg,#0f2027,#203a43,#2c5364)"
+            document.body.style.background=gradient;
+            document.body.style.color="white"
+
+        }else if(conditionId >=500 && conditionId<600){
+             gradient="linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)"
+            document.body.style.background=gradient;
+            document.body.style.color="white"
+
+        }else if(conditionId >=600 && conditionId<700){
+              gradient="linear-gradient(135deg,#e0eafc,#cfdef3,)"
+              document.body.style.background=gradient;
+              document.body.style.color="#1a1a2e"
+
+        }else if(conditionId >=700 && conditionId<800){
+             gradient="linear-gradient(135deg,#606c88,#3f4c6b)"
+            document.body.style.background=gradient;
+            document.body.style.color="white"
+
+        }else{
+              gradient="linear-gradient(135deg,#304352,#d7d2cc)"
+            document.body.style.background=gradient;
+            document.body.style.color="white"
+        }          
+        }
     
+
 
 
 

@@ -22,12 +22,12 @@ body {
     background:var(--bg-gradient);
     color:var(--text-primary);
     padding:20px;
+    transition:background 1.5s ease
 }
 #container{
     text-align:center;
     padding:20px;
-    margin:0 auto;
-    max-width:650px;
+    margin:0 auto
 }
 h1{
     font-size:2.5rem;
@@ -57,11 +57,12 @@ h1{
 #search-section input{
     background:rgba(255,255,255,0.15);
     border:1px solid rgba(255,255,255,0.3);
-    color:var(--text-primary);
+    color:var(--text-secondary);
     border-radius:10px;
     padding:12px;
     width:80%;
     font-size:1.2rem;
+    font-weight:bolder;
 }
 #search-section {
     margin-top:20px;
@@ -105,9 +106,10 @@ span i{
     color:var(--text-primary);
     font-weight: lighter;
 }
-main{
+.wrapper{
     max-width:650px;
     margin:0 auto;
+    width:100%;
 }
 #recent-city{
     font-size:1rem;
@@ -324,7 +326,7 @@ hr{
     }
     .forecast-card{
         background:var(--glass-bg);
-        -webkit-backdrop-filter:var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
         backdrop-filter:var(--glass-blur);
         border:1px solid var(--glass-border);
         border-radius:15px;
@@ -337,7 +339,7 @@ hr{
         transform:translateY(-8px);
         border: 1px solid var(--accent);
         transition: all 0.3s ease;
-        box-shadow: 0 12px 25px rgba(0,0,0,0.25)
+        box-shadow: 0 12px 25px rgba(0,0,0,0.25);
     }
     #ai{
         margin-top:10px;
@@ -352,14 +354,13 @@ hr{
     #ai i{
         color:var(--accent);
         font-size:1.2rem;
-        margin-right:10px;
     }
     #ai p{
         font-size:1.2rem;
         font-weight:700;
         color:var(--accent);
         letter-spacing:1px;
-        margin-bottom:15px;
+        margin-bottom:15px;  
     }
     #advice p{
         font-size:0.8rem;
@@ -432,31 +433,7 @@ hr{
     padding:20px;
     display:none
    }
-@media(max-width:480px){
-    #temperature{
-        font-size:3rem;
-        text-align:center;
-    }
-    #city{
-        font-size:1.5rem;
-    }
-    .stats-grid {
-        grid-template-columns:repeat(2, 1fr);
-    }
-    .forecast-cards {
-        flex-direction:column;
-        flex: 1 1 calc(50%-10px);
-    }
-    .toggle{
-       font-size:0.9rem;
-    }
-    .weather-card{
-        padding:15px;
-    }
-    #search-section{
-        flex-direction:column;
-    }
-}
+
 #forecast-temp{
     font-size:1.2rem;
     padding-bottom:5px;
@@ -489,14 +466,61 @@ hr{
     transform:translate(-3px)
 }
 .forecast-card:first-child{
-    border:1px solidrgba(255,255,255,0.4);
+    border:1px solid rgba(255,255,255,0.4);
     background:rgba(0,210,255,0.15);
     box-shadow:0 4px 15px rgba(0,0,0,0.2)
 }
-
-
-
-
-
-
-
+#input-text::placeholder{
+    color:rgba(255,255,255,0.8)
+}
+@media(max-width:480px){
+    #temperature{
+        font-size:3rem;
+        text-align:center;
+    }
+    #city{
+        font-size:1.5rem;
+    }
+    .stats-grid {
+        grid-template-columns:repeat(2, 1fr);
+    }
+    .forecast-cards {
+        flex-direction:column;
+    }
+    .toggle{
+       font-size:0.9rem;
+    }
+    .weather-card{
+        padding:15px;
+    }
+    #search-section{
+        flex-direction:column;
+    }
+   
+    }
+ @media(min-width:1024px){
+       .wrapper{
+            max-width:900px;
+        }
+        .forecast-card{
+            min-height:180px;
+            padding:20px 15px;
+        }
+        .forecast-card img{
+            width:70px;
+            height:70px
+        }
+        .forecast-cards{
+            gap:15px;
+            min-height:180px;
+        }
+        #advice p{
+            margin-bottom:20px;
+            height:auto;
+        }
+    }
+     @media(min-width:1280px){
+        .wrapper{
+            max-width:1000px;
+        }
+    }
