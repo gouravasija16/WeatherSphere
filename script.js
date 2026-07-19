@@ -57,11 +57,11 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
  let currentUnit="°C"
  let currentTemp=0;
  let weatherData="null"
- let forecastToggleData="null";
+ let forecastToggleData="null"
  //Default-city on page load
  window.addEventListener("DOMContentLoaded",()=>{
     fetchWeather("Mumbai")
-    fetchForecast("Mumbai")
+     fetchForecast("Mumbai")
     displayRecentSearches()
  })
  //toggleButton
@@ -97,7 +97,6 @@ return
   fetchWeather(city)
   console.log("calling fetchForecast")
   fetchForecast(city)
-
   saveRecentSearches(city)
   searchInput.value=""
 })
@@ -117,12 +116,37 @@ return;
   searchInput.value=""
 }
 })
+//location Button
+locateBtn.addEventListener('click',()=>{
+     const success=(position)=>{
+    const lat=position.coords.latitude
+    const lon=position.coords.longitude
+    
+    fetchWeather(null,lat,lon)
+     fetchForecast(null,lat,lon)
+ }
+ const error=(err)=>{
+    showError("Location access denied")
+ }
+   if(navigator.geolocation){
+   navigator.geolocation.getCurrentPosition(success,error)
+ }else{
+    alert("Geolocation not supported")
+ }
+
+})
 //weather API call using async and await
-async function fetchWeather(city){
+async function fetchWeather(city=null,lat=null,lon=null){
     loadingEl.style.display="block"
     errorEl.style.display="none"
-    try{
-     let response=await fetch(`${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`)
+    let url
+    try{ 
+        if(city){
+           url= ` ${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`      
+    }else{
+        url=` ${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`    
+    } 
+     let response=await fetch(url) 
      console.log(response.ok)
      if(!response.ok){
       throw  new err
@@ -228,10 +252,16 @@ async function fetchWeather(city){
     
 }
 // 5 Day forecast 
-async function fetchForecast(city){
+async function fetchForecast(city=null,lat=null,lon=null){
     console.log('entered fetchForecast')
     try{
-   let response= await fetch(`${BASE_URL}/forecast?q=${city}&appid=${API_KEY}&units=metric`)
+        let url
+          if(city){
+           url= ` ${BASE_URL}/forecast?q=${city}&appid=${API_KEY}&units=metric`      
+    }else{
+        url=` ${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`    
+    } 
+   let response= await fetch(url)
    console.log(response.status)
    let forecast= await response.json()
     let forecastData=forecast.list.filter(item=>item.dt_txt.includes("12:00:00"))
@@ -361,6 +391,7 @@ function displayRecentSearches(){
         fetchWeather(e.target.textContent)
         fetchForecast(e.target.textContent)
     })
+    
 
 
 
