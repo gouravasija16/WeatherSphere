@@ -1,7 +1,6 @@
 
 //API configuration
 const BASE_URL='https://api.openweathermap.org/data/2.5'
- console.log("WeatherSphere Loaded Successfully")
  let recentCities=JSON.parse(localStorage.getItem("recentSearches")) || []
 
  // meteocons weather icons mapping
@@ -62,7 +61,7 @@ const BASE_URL='https://api.openweathermap.org/data/2.5'
  window.addEventListener("DOMContentLoaded",()=>{
     fetchWeather("Mumbai")
      fetchForecast("Mumbai")
-    displayRecentSearches()
+    displayRecentSearches(recentCities)
  })
  //toggleButton
 function toggleButton(){
@@ -97,7 +96,6 @@ return
   fetchWeather(city)
   console.log("calling fetchForecast")
   fetchForecast(city)
-  saveRecentSearches(city)
   searchInput.value=""
 })
 searchInput.addEventListener('keydown',(e)=>{
@@ -112,7 +110,6 @@ return;
   }
   fetchWeather(city)
   fetchForecast(city)
-  saveRecentSearches(city)
   searchInput.value=""
 }
 })
@@ -147,14 +144,11 @@ async function fetchWeather(city=null,lat=null,lon=null){
         url=` ${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`    
     } 
      let response=await fetch(url) 
-     console.log(response.ok)
      if(!response.ok){
       throw  new err
      }
      let data= await response.json()
-      await console.log(data)
       localStorage.setItem("lastWeather",JSON.stringify(data))
-      console.log(JSON.parse(localStorage.getItem("lastWeather")))
     //   fetchAIAdvice()
        weatherData=data
       displayWeather( weatherData)
@@ -186,10 +180,8 @@ async function fetchWeather(city=null,lat=null,lon=null){
         currentTemp=data.main.temp *(9/5)+32
         info=Math.round((data.main.feels_like)*(9/5)+32)
      }
-     console.log(currentTemp)
      let tempInfo =Math.round(currentTemp)
     tempEl.textContent=`${tempInfo}${currentUnit}`
-    console.log(tempInfo)
      
     feelsLikeEl.textContent=`Feels like ${info}${currentUnit} `
     conditionEl.textContent=data.weather[0].description
@@ -198,8 +190,6 @@ async function fetchWeather(city=null,lat=null,lon=null){
     const iconCode=data.weather[0].icon
     const iconName=iconMap[iconCode]
     const iconUrl=`https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/all/${iconName}.svg`
-    console.log(iconName)
-    console.log(iconUrl)
     weatherIcon.style.display="block"
     weatherIcon.src= iconUrl
 
@@ -249,14 +239,15 @@ async function fetchWeather(city=null,lat=null,lon=null){
         hour:"2-digit",
         minute:'2-digit'
     })
+    saveRecentSearches(data.name)
     //Weather Id
     const conditionId = data.weather[0].id
     setBackground(conditionId)
-    
+    const weatherCondition=data.weather[0].main.toLowerCase()
+    weatherIconGlow(weatherCondition) 
 }
 // 5 Day forecast 
 async function fetchForecast(city=null,lat=null,lon=null){
-    console.log('entered fetchForecast')
     try{
         let url
           if(city){
@@ -265,11 +256,8 @@ async function fetchForecast(city=null,lat=null,lon=null){
         url=` ${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`    
     } 
    let response= await fetch(url)
-   console.log(response.status)
    let forecast= await response.json()
     let forecastData=forecast.list.filter(item=>item.dt_txt.includes("12:00:00"))
-    console.log(forecastData)
-     console.log(forecastData.map(item=>item))
      forecastToggleData=forecastData
      displayForecast(forecastToggleData)
     }
@@ -277,8 +265,8 @@ async function fetchForecast(city=null,lat=null,lon=null){
          console.log(err)
     }
 }
+//display forecast 
 function displayForecast(forecastToggleData){
-    console.log(forecastToggleData.length)
       forecastCards.innerHTML=""
     forecastToggleData.forEach(entry => {
         if(currentUnit==="°C"){
@@ -289,7 +277,6 @@ function displayForecast(forecastToggleData){
         let forecastDay=new Date(entry.dt*1000).toLocaleDateString('en',{
             weekday:'short'
         })
-        console.log(forecastDay)
         const forecastIconCode=entry.weather[0].icon
         const forecastIconName=iconMap[forecastIconCode]
         const forecastIconUrl=`https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/all/${forecastIconName}.svg`
@@ -363,37 +350,29 @@ function saveRecentSearches(city){
     displayRecentSearches(recentCities)
 }
 //dispaly recent Searches
-function displayRecentSearches(){  
+function displayRecentSearches(recentCities){  
     if(recentCities.length !==0){  
          recentList.innerHTML="" 
-    recentCities.forEach(recentCity=>{
+    recentCities.forEach((recentCity)=>{
        let button= document.createElement('button')
        button.classList.add('recentCityBtn')
+       
        button.textContent=recentCity
-       console.log(button.textContent)
        recentList.appendChild(button)
     })
  }  
 }
+//recent search button click
  recentList.addEventListener('click',(e)=>{
-        console.log(e.target.textContent)
-        const allBtn=document.querySelectorAll('.recentCityBtn')
-        for(let i=0;i<allBtn.length;i++){
-            allBtn[i].style.border=""
-             allBtn[i].style.color=""
-             allBtn[i].style.background=""
-              allBtn[i].transform='none'
-              allBtn[i].transition='none'
-        }
-        e.target.style.border='1px solid #419cff'
-        e.target.style.background='#4f9cff'
-        e.target.style.color='#fff'
-        e.target.boxshadow='0 0 18px rgba(79,156,255,0.45)'
-        e.target.transition='transform 0.2s ease-in-out'
-        e.target.transform='scale(1.05)'
+        const allBtn = document.querySelectorAll('.recentCityBtn');
+        allBtn.forEach(btn=>{
+            btn.classList.remove("active")
+        })
+        e.target.classList.add("active")
         fetchWeather(e.target.textContent)
         fetchForecast(e.target.textContent)
     })
+    //set background based on weather Id
     function setBackground(conditionId){
         let gradient="null"
         if(conditionId===800){
@@ -435,7 +414,47 @@ function displayRecentSearches(){
             document.body.style.color="white"
         }          
         }
+    //weather icon glow
+    function weatherIconGlow(condition){
+        weatherIcon.classList.remove(
+        "cloudy",
+        "clear",
+        "sunny",
+        "thunder",
+        "rain",
+        "mist"
+         )
+        switch(condition){
+            case 'sunny':
+                 weatherIcon.classList.add("sunny")
+                 break;
+            case 'rain':
+            case 'drizzle':
+                 weatherIcon.classList.add("rain")
+                 break;
+            case 'snow':
+                 weatherIcon.classList.add("snow")
+                 break;
+            case 'thunderstorm':
+                 weatherIcon.classList.add("thunder")
+                 break;
+            case 'mist':
+            case 'fog':
+            case 'Haze':
+            case 'Smoke':
+                 weatherIcon.classList.add("mist")
+                 break;
+            case 'clouds':
+                 weatherIcon.classList.add("cloudy")
+                 break;
+            default:
+                   weatherIcon.classList.add("clear")
+                   break;
+            }
+        }
+
     
+
 
 
 

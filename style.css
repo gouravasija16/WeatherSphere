@@ -135,12 +135,15 @@ span i{
     padding:4px 12px;
     font-size:1rem;
     cursor:pointer;
-    color:(--text-primary);
+    color:var(--text-primary);
     transition:0.3s;
-    text-transform:capitalize
+    text-transform:capitalize;
+}
+.recentCityBtn.active{
+    background:blue;
 }
 #recent-list button:hover{
-    background:rgba(255,255,255,255,0.5);
+    background:rgba(255,255,255,0.5);
     border: 1px solid var(--accent);
 }
 .weather-card{
@@ -252,12 +255,38 @@ span i{
     width:150px;
     height:150px;
     object-fit:contain;
-    filter:drop-shadow(0 0px 18px rgba(255,255,255,0.35));
+    transition:filter 0.5s;
     animation:float 3s ease-in-out infinite
 }
+.sunny{
+    filter:drop-shadow(0 0 20px #ffd54f)
+}
+.cloudy{
+    filter:drop-shadow(0 0 18px #a5d8ff)
+}
+.rain{
+    filter:drop-shadow(0 0 20px #4fc3f7)
+}
+.thunder{
+    animation: float 3s ease-in-out infinite,
+    pulse-glow 1.5s  ease-in-out infinite
+}
+.snow{
+    filter:drop-shadow(0 0 20px #f5f9ff)
+}
+.mist{
+    filter:drop-shadow(0 0 20px #b0bec5)
+}
+.clear{
+     filter:drop-shadow(0 0 20px #ffd700)
+}
 @keyframes float{
-    0%,100% { transform:translateY(0);}
-    50% {transform:translateY(-8px)}
+    0%,100% { transform:translateY(0px);}
+    50% {transform:translateY(-10px)}
+}
+@keyframes pulse-glow{
+      0%,100% { filter:drop-shadow(0 0 22px #9c6bff);}
+    50% {filter:drop-shadow(0 0 35px #9c6bff);}
 }
 
 hr{
