@@ -68,7 +68,6 @@ function toggleButton(){
         fahrenBtn.addEventListener('click',()=>{
             celsiusBtn.classList.remove('active')
             fahrenBtn.classList.add('active')
-           console.log(currentTemp)
            currentUnit="°F"
            displayWeather( weatherData)
            displayForecast(forecastToggleData)
@@ -149,11 +148,12 @@ async function fetchWeather(city=null,lat=null,lon=null){
      }
      let data= await response.json()
       localStorage.setItem("lastWeather",JSON.stringify(data))
-    //   fetchAIAdvice()
        weatherData=data
       displayWeather( weatherData)
+      fetchAIAdvice()
     }
     catch(err){
+        console.log("fetch error:",err)
          errorEl.style.display="block"
         setTimeout(()=>{
              errorEl.style.display="none"
@@ -295,10 +295,7 @@ function displayForecast(forecastToggleData){
 //AI advice
 async function fetchAIAdvice(){
     try{
-        console.log("AI function called")
          let lastWeather=JSON.parse(localStorage.getItem("lastWeather"))
-         console.log(lastWeather)
-    console.log("Gemini API called")
     const prompt=`You are a smart weather assistant.
      Based on current weather in ${lastWeather.name}:
      🌡️ Temperature: Math.round(${lastWeather.main.temp})°C
@@ -324,18 +321,23 @@ async function fetchAIAdvice(){
             })
         }
     )
-    console.log(response.status)
     const dataAI =await response.json()
-    console.log(dataAI)
-    console.log(dataAI.candidates[0].content.parts[0].text)
      const aiText=dataAI.candidates[0].content.parts[0].text
     const lines=aiText.split("\n").filter(line=>line.trim())
-    const formatted=lines.map(line=>
-        `<p>${line.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`
-    ).join("")
+    const category=[
+       { match:"What to Wear",color:'#4caf50'},
+       { match:"Activities",color:'#e91e63'},
+       { match:"Health tips",color:'#4fc3f7'},
+       { match:"Carry",color:'#9c27b0'},
+       { match:"Warning",color:'#f44336'}
+    ]
+    const formatted=lines.map(line => {
+        let borderColor="var(--accent-active,var(--accent))"
+        const found=category.find(c=>line.includes(c.match))
+        if(found) borderColor=found.color
+          return `<p style="border-left:3px solid ${borderColor}">${line.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`
+    }).join("")
     aiEl.innerHTML=formatted
-    console.log(aiEl)
-    console.log("formatted:",formatted)
 }catch(err){
     console.log(err)
 }
@@ -353,9 +355,12 @@ function saveRecentSearches(city){
 function displayRecentSearches(recentCities){  
     if(recentCities.length !==0){  
          recentList.innerHTML="" 
-    recentCities.forEach((recentCity)=>{
-       let button= document.createElement('button')
+        recentCities.forEach((recentCity,index)=>{
+       let button= document.createElement('button') 
        button.classList.add('recentCityBtn')
+       if(index==0){
+        button.classList.add('active')
+       }
        
        button.textContent=recentCity
        recentList.appendChild(button)
@@ -378,6 +383,7 @@ function displayRecentSearches(recentCities){
         if(conditionId===800){
              gradient="linear-gradient(135deg,#f7971e,#ffd200)"
             document.body.style.background=gradient;
+             document.documentElement.style.setProperty('--accent-active','#ffd200')
             document.body.style.color="white"
             document.querySelectorAll(".glass-card")
             .forEach(card=>{
@@ -386,31 +392,37 @@ function displayRecentSearches(recentCities){
         }else if(conditionId >=200 && conditionId<300){
              gradient="linear-gradient(135deg,#0f0c29,#302b63,#24243e)"
             document.body.style.background=gradient;
+            document.documentElement.style.setProperty('--accent-active','#8e6fd4')
             document.body.style.color="white"
 
         }else if(conditionId >=300 && conditionId<500){
-               gradient="linear-gradient(135deg,#0f2027,#203a43,#2c5364)"
+             gradient="linear-gradient(135deg,#0f2027,#203a43,#2c5364)"
             document.body.style.background=gradient;
+            document.documentElement.style.setProperty('--accent-active','#4fb3bf')
             document.body.style.color="white"
 
         }else if(conditionId >=500 && conditionId<600){
              gradient="linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)"
             document.body.style.background=gradient;
+            document.documentElement.style.setProperty('--accent-active','#4fc3f7')
             document.body.style.color="white"
 
         }else if(conditionId >=600 && conditionId<700){
               gradient="linear-gradient(135deg,#e0eafc,#cfdef3,)"
               document.body.style.background=gradient;
+              document.documentElement.style.setProperty('--accent-active','#90a4ae')
               document.body.style.color="#1a1a2e"
 
         }else if(conditionId >=700 && conditionId<800){
              gradient="linear-gradient(135deg,#606c88,#3f4c6b)"
             document.body.style.background=gradient;
+            document.documentElement.style.setProperty('--accent-active','#b0bec5')
             document.body.style.color="white"
 
         }else{
               gradient="linear-gradient(135deg,#304352,#d7d2cc)"
             document.body.style.background=gradient;
+            document.documentElement.style.setProperty('--accent-active','#e0e0e0')
             document.body.style.color="white"
         }          
         }

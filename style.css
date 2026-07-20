@@ -31,18 +31,22 @@ body {
 }
 h1{
     font-size:2.5rem;
-    background:linear-gradient(90deg,#00d2ff,#ffffff);
+    background:linear-gradient(90deg,var(--accent-active),#ffffff);
     -webkit-background-clip: text;
     -webkit-text-fill-color:transparent;
     background-clip:text; 
 }
 #container i{
     font-size:2rem;
-    color:var(--accent);
+    color:var(--accent-active,--accent);
     margin-right:12px;
     vertical-align:middle;
-    -webkit-text-fill-color: var(--accent);
-    filter:drop-shadow(0 0 8px rgba(8, 174, 207, 0.6))
+    -webkit-text-fill-color: var(--accent-active);
+    filter:drop-shadow(0 0 8px var(--accent-active))
+}
+p{
+    color:rgba(255,255,255,0.85);
+    font-weight:400;
 }
 .glass-card{
     background:var(--glass-bg);
@@ -139,12 +143,15 @@ span i{
     transition:0.3s;
     text-transform:capitalize;
 }
-.recentCityBtn.active{
-    background:blue;
-}
 #recent-list button:hover{
     background:rgba(255,255,255,0.5);
     border: 1px solid var(--accent);
+}
+#recent-list .recentCityBtn.active{
+    background:rgba(255,255,255,0.35);
+    border:1px solid var(--accent-active, rgba(255,255,255,0.6));
+    box-shadow:0 0 10px var(--accent-active, rgba(255,255,255,0.4));
+    color:white;
 }
 .weather-card{
     display:flex;
@@ -381,13 +388,13 @@ hr{
         animation:fadeUp 0.9s ease;
     }
     #ai i{
-        color:var(--accent);
+        color:var(--accent-active,--accent);
         font-size:1.2rem;
     }
     #ai p{
         font-size:1.2rem;
         font-weight:700;
-        color:var(--accent);
+        color:var(--accent-active);
         letter-spacing:1px;
         margin-bottom:15px;  
     }
@@ -397,13 +404,14 @@ hr{
         margin:8px 0;
         padding:10px 15px;
         border-radius:10px;
-        background:rgba(255,255,255,0.05);
+        background:rgba(0,0,0,0.25);
         border-left:3px solid var(--accent);
         line-height:1.6;
         font-family:'Poppins',sans-serif;
+        box-shadow:0 2px 6px rgba(0,0,0,0.15)
     }
     #advice strong{
-        color:var(--accent);
+        color:var(--accent-active,--accent);
         font-weight:600;
     }
     #advice p:hover{
@@ -411,13 +419,32 @@ hr{
         transform:translateX(5px);
         transition:all 0.2s ease;
     }
+    #advice p{
+        animation:fadeInUp 0.4s ease forwards;
+    }
+    #advice p:nth-child(1){
+        animation-delay:0.05s;
+    }
+     #advice p:nth-child(2){
+        animation-delay:0.15s;
+    }
+     #advice p:nth-child(3){
+        animation-delay:0.25s;
+    }
+     #advice p:nth-child(4){
+        animation-delay:0.35s;
+    }
+     #advice p:nth-child(5){
+        animation-delay:0.45s;
+    }
     footer{
         text-align:center;
         padding:20px;
-        color:var(--text-secondary);
+        color:rgba(255,255,255,0.8);
         font-size:0.9rem;
         border-top:1px solid var(--glass-border);
         margin-top:20px;
+    
     }
     #last-updated{   
         margin-bottom:10px;
